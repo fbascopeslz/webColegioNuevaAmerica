@@ -13,7 +13,7 @@ class APIController extends Controller
     {        
         $listaAsistencia = json_decode($request->input("listaAsistencia"), true);
              
-        //try {
+        try {
             $array = [];
 
             for ($i=0; $i < count($listaAsistencia); $i++) {                                                   
@@ -33,10 +33,10 @@ class APIController extends Controller
 
             return response()->json(1);                                           
             
-        //} catch (\Throwable $th) {                  
-            //return response()->json(
-                //0
-            //);  
-       //}        
+        } catch (\Throwable $th) {                  
+            return response()->json(
+                $th->getMessage()
+            );  
+       }        
     }
 }
