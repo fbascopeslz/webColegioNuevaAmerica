@@ -33,7 +33,7 @@ Route::get('/', function () {
     return view('principal');
 })->name('main'); //Alias de la ruta
 
-Route::get('webColegioNuevaAmerica/public/alumno', 'AlumnoController@index');
+Route::get('alumno', 'AlumnoController@index');
 Route::post('alumno/registrar', 'AlumnoController@store');
 Route::post('alumno/actualizar', 'AlumnoController@update');
 

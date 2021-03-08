@@ -295,7 +295,7 @@
                 let loader = this.$loading.show(this.optionsLoadingOverlay);
                 let me = this;
                 //http://www.saparicio.xyz/webColegioNuevaAmerica/public/alumno?page=1&buscar=&criterio=Alumno.Nombre
-                var url = 'webColegioNuevaAmerica/public/alumno?page=' + page + '&buscar=' + buscar + '&criterio=' + criterio;
+                var url = 'alumno?page=' + page + '&buscar=' + buscar + '&criterio=' + criterio;
                 
                 axios.get(url)
                     .then(function (response) {

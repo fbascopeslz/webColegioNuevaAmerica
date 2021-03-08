@@ -2194,7 +2194,8 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_loading_overlay__WEBPACK_IMPO
     },
     listarAlumnos: function listarAlumnos(page, buscar, criterio) {
       var loader = this.$loading.show(this.optionsLoadingOverlay);
-      var me = this;
+      var me = this; //http://www.saparicio.xyz/webColegioNuevaAmerica/public/alumno?page=1&buscar=&criterio=Alumno.Nombre
+
       var url = 'alumno?page=' + page + '&buscar=' + buscar + '&criterio=' + criterio;
       axios.get(url).then(function (response) {
         // handle success
@@ -56563,8 +56564,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\Users\fbasc\Desktop\Nueva carpeta\frontendColegio\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\Users\fbasc\Desktop\Nueva carpeta\frontendColegio\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\Users\Fernando Bascope\Desktop\Proyectos Taller de Grado\frontendColegio-master\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\Users\Fernando Bascope\Desktop\Proyectos Taller de Grado\frontendColegio-master\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
