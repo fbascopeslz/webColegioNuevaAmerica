@@ -58,7 +58,7 @@ Route::post('inscripcion/registrar', 'InscripcionController@store');
 
 Route::get('cursoParalelo', 'CursoParaleloController@index');
 
-
+Route::post('asistencia/registrarAsistencia', 'APIController@registrarAsistencia');
 
 //Auth::routes();
 //Route::get('/home', 'HomeController@index')->name('home');
