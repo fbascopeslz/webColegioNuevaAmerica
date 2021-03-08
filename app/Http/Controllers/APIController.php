@@ -10,7 +10,9 @@ use DB;
 class APIController extends Controller
 {
     public function registrarAsistencia(Request $request)
-    {        
+    {     
+        return response()->json("OKKK"); 
+        /*  
         $listaAsistencia = json_decode($request->input("listaAsistencia"), true);
              
         try {
@@ -37,6 +39,7 @@ class APIController extends Controller
             return response()->json(
                 $th->getCode()
             );  
-       }        
+       }
+       */       
     }
 }
