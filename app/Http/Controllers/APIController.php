@@ -37,7 +37,7 @@ class APIController extends Controller
             
         } catch (\Throwable $th) {                  
             return response()->json(
-                $th->getCode()
+                $th
             );  
        }
               
