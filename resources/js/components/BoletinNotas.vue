@@ -4,77 +4,51 @@
             <!-- Ejemplo de tabla Listado -->
             <div class="card">
                 <div class="card-header">
-                    <i class="fa fa-align-justify"></i> Inscripcion de Aumnos                    
+                    <i class="fa fa-align-justify"></i> Boletin de Notas
+                    <button v-show="swBotonGenerarBoletin == 1" type="button" @click="generarBoletinNotas()" class="btn btn-secondary">
+                        <i class="fa fa-plus"></i>&nbsp;Generar Boletin Notas
+                    </button>                
                 </div>
 
-                <div class="card-body">
-                    <div class="form-row form-group">
-                        <label>Seleccione un Alumno: </label>
-                    </div>                                           
-                    
-                    <div class="form-row form-group border">                                                        
-                        <div class="form-group col-md-3">                                        
-                            <label>Nombre</label>                                                                                  
-                            <input type="text" readonly class="form-control" v-model="nombreAlumno">                                                                                                                                                                                                                                              
+                <div class="card-body">                
+                    <div class="form-row form-group border">
+                        <div class="col-md-12 form-group">
+                            <label>Seleccione una Oferta: </label>
+                        </div>                                                      
+                        <div class="form-group col-md-6">                                        
+                            <label>Materia</label>                                                                                  
+                            <input type="text" readonly class="form-control" v-model="materiaOferta">                                                                                                                                                                                                                                              
                         </div> 
-                        <div class="form-group col-md-3">                                    
-                            <label>CI</label>                                                                                                                       
-                            <input type="text" readonly class="form-control" v-model="ciAlumno">                                                                                                                                                                                                                         
+                        <div class="form-group col-md-6">                                    
+                            <label>Profesor</label>                                                                                                                       
+                            <input type="text" readonly class="form-control" v-model="profesorOferta">                                                                                                                                                                                                                         
                         </div>
-                        <div class="form-group col-md-3">                                                                       
-                            <label>Sexo</label>                                           
-                            <input type="text" readonly value="0" class="form-control" v-model="sexoAlumno">                                                                                                                                                             
+                        <div class="form-group col-md-4">                                    
+                            <label>Curso</label>                                                                                                                       
+                            <input type="text" readonly class="form-control" v-model="cursoOferta">                                                                                                                                                                                                                         
                         </div>
+                        <div class="form-group col-md-2">                                    
+                            <label>Paralelo</label>                                                                                                                       
+                            <input type="text" readonly class="form-control" v-model="paraleloOferta">                                                                                                                                                                                                                         
+                        </div> 
+                        <div class="form-group col-md-6">                                    
+                            <label>Nivel</label>                                                                                                                       
+                            <input type="text" readonly class="form-control" v-model="nivelOferta">                                                                                                                                                                                                                         
+                        </div>                        
                         <div class="form-group col-md-2">                                
                             <div class="form-inline">                                                                               
-                                <button @click="abrirModal('alumnos')" class="btn btn-primary form control btnbuscar">Seleccionar Alumno</button>                                        
+                                <button @click="abrirModal('oferta')" class="btn btn-primary form control btnbuscar">Seleccionar Oferta</button>                                        
                             </div>                                
                         </div>                                                                                                                                                                                                                                                                                                              
-                    </div>
-
-
-                    <div class="form-row form-group border">
-                        <div class="form-group col-md-3" v-show="swModalCursoParalelo == 1">
-                            <div class="form-inline">
-                                <button type="button" @click="abrirModal('agregarInscripcion')" class="btn btn-secondary form control btnAgregarOferta">
-                                    <i class="fa fa-plus"></i>&nbsp;Añadir Inscripcion
-                                </button>
-                            </div>
-                        </div>
-
-                        <div class="form-group table-responsive col-md-12">                    
-                            <table class="table table-bordered table-striped table-sm">
-                                <thead>
-                                    <tr>                                        
-                                        <th>Nivel</th>                                        
-                                        <th>Curso</th>
-                                        <th>Paralelo</th>                                                                                                                                                                                                                      
-                                        <th>Gestion</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr v-show="swMostrarInscripcion == 1" v-for="inscripcion in arrayInscripcion" :key="inscripcion.id">                                        
-                                        <td v-text="inscripcion.Nivel"></td>
-                                        <td v-text="inscripcion.Curso"></td>
-                                        <td v-text="inscripcion.Paralelo"></td>
-                                        <td v-text="inscripcion.Gestion"></td>                                                                                                                                                                                                                                                                                                                     
-                                    </tr>
-
-                                    <tr v-show="swMostrarInscripcion == 0">                                        
-                                        <td colspan="4" v-text="mensajeNoTieneInscripcion"></td>                                                                                                                                                                                                                                                                                                                                                            
-                                    </tr>                                                               
-                                </tbody>
-                            </table>
-                        </div>                        
-                    </div>                                       
+                    </div>                                                                             
                 </div>
 
             </div>
             <!-- Fin ejemplo de tabla Listado -->
         </div>
 
-        <!--Modal para Alumnos-->
-        <div class="modal" tabindex="-1" :class="{'mostrar' : modalAlumno}" role="dialog" aria-labelledby="myModalLabel" style="display: none; overflow-y: scroll;" aria-hidden="true">
+        <!--Modal para Oferta-->
+        <div class="modal" tabindex="-1" :class="{'mostrar' : modalOferta}" role="dialog" aria-labelledby="myModalLabel" style="display: none; overflow-y: scroll;" aria-hidden="true">
             <div class="modal-dialog modal-primary modal-lg" role="document">
                 <div class="modal-content">
 
@@ -89,14 +63,13 @@
                         <div class="form-group row">
                             <div class="col-md-12">
                                 <div class="input-group">
-                                    <select class="form-control col-md-3" v-model="criterioAlumno">                                        
-                                        <option value="Nombre">Nombre</option>
-                                        <option value="CI">CI</option>                                                                                
+                                    <select class="form-control col-md-3" v-model="criterioOferta">                                        
+                                        <option value="Materia.Nombre">Materia</option>                                                                                                                    
                                     </select>
-                                    <input type="text" v-model="buscarAlumno" @keyup.enter="listarAlumnos(1, buscarAlumno, criterioAlumno)" class="form-control" placeholder="Texto a buscar">
-                                    <button type="submit" @click="listarAlumnos(1, buscarAlumno, criterioAlumno)" class="btn btn-primary"><i class="fa fa-search"></i>Buscar</button>
+                                    <input type="text" v-model="buscarOferta" @keyup.enter="listarOfertas(buscarOferta, criterioOferta)" class="form-control" placeholder="Texto a buscar">
+                                    <button type="submit" @click="listarOfertas(buscarOferta, criterioOferta)" class="btn btn-primary"><i class="fa fa-search"></i> Buscar</button>
                                 </div>
-                                <span>(*)Para visualizar todos los Alumnos haga una busqueda en blanco</span>
+                                <span>(*)Para visualizar todas los Ofertas haga una busqueda en blanco</span>
                             </div>
                         </div>
                         <div class="table-responsive">
@@ -104,127 +77,44 @@
                                 <thead>
                                     <tr>
                                         <th>Opciones</th>
-                                        <th>Nombre</th>
-                                        <th>CI</th>                                        
-                                        <th>Fecha Nacimiento</th>                               
-                                        <th>Sexo</th>
-                                        <th>Direccion</th>
-                                        <th>Telefono</th>
-                                        <th>Email</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr v-for="(alumno, index) in arrayAlumnos" :key="index">
-                                        <td>
-                                            <button type="button" @click="seleccionarAlumno(alumno)" class="btn btn-success btn-sm">
-                                                <i class="fa fa-check"></i>
-                                            </button> 
-                                        </td>
-                                        <td v-text="alumno.Nombre"></td>
-                                        <td v-text="alumno.CI"></td>                                        
-                                        <td v-text="alumno.FechaNac"></td>
-                                        <td v-text="alumno.Sexo"></td>
-                                        <td v-text="alumno.Direccion"></td>                                                                    
-                                        <td v-text="alumno.Telefono"></td>
-                                        <td v-text="alumno.Email"></td>                                    
-                                    </tr>                                
-                                </tbody>
-                            </table>
-                            <nav>
-                                <ul class="pagination">
-                                    <li class="page-item" v-if="pagination.current_page > 1">
-                                        <a class="page-link" href="#" @click.prevent="cambiarPagina(pagination.current_page - 1, buscarAlumno, criterioAlumno)">Ant</a>
-                                    </li>
-
-                                    <li class="page-item" v-for="page in pagesNumber" :key="page" :class="[page == isActived ? 'active' : '']">
-                                        <a class="page-link" href="#" @click.prevent="cambiarPagina(page, buscarAlumno, criterioAlumno)" v-text="page"></a>
-                                    </li>       
-
-                                    <li class="page-item" v-if="pagination.current_page < pagination.last_page">
-                                        <a class="page-link" href="#" @click.prevent="cambiarPagina(pagination.current_page + 1, buscarAlumno, criterioAlumno)">Sig</a>
-                                    </li>
-                                </ul>
-                            </nav>
-                        </div>
-                    </div>
-
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" @click="cerrarModal()">Cerrar</button>                        
-                    </div>                             
-
-                </div>
-                <!-- /.modal-content -->
-            </div>
-            <!-- /.modal-dialog -->
-        </div>
-        <!--Fin del modal-->
-
-        <!--Modal para Curso Paralelo-->
-        <div class="modal" tabindex="-1" :class="{'mostrar' : modalCursoParalelo}" role="dialog" aria-labelledby="myModalLabel" style="display: none; overflow-y: scroll;" aria-hidden="true">
-            <div class="modal-dialog modal-primary modal-lg" role="document">
-                <div class="modal-content">
-
-                    <div class="modal-header">
-                        <h4 class="modal-title" v-text="tituloModal"></h4>
-                        <button type="button" class="close" @click="cerrarModal()" aria-label="Close">
-                            <span aria-hidden="true">×</span>
-                        </button>
-                    </div>
-                
-                    <div class="modal-body">
-                        <div class="form-group row">
-                            <div class="col-md-12">
-                                <div class="input-group">
-                                    <select class="form-control col-md-3" v-model="criterioCursoParalelo">                                        
-                                        <option value="Nivel.Nombre">Nivel</option>
-                                        <option value="Curso.Nombre">Curso</option>
-                                        <option value="Paralelo.Nombre">Paralelo</option>                                                                               
-                                    </select>
-                                    <input type="text" v-model="buscarCursoParalelo" @keyup.enter="listarCursosParalelos(1, buscarCursoParalelo, criterioCursoParalelo)" class="form-control" placeholder="Texto a buscar">
-                                    <button type="submit" @click="listarCursoParalelos(1, buscarCursoParalelo, criterioCursoParalelo)" class="btn btn-primary"><i class="fa fa-search"></i>Buscar</button>
-                                </div>
-                                <span>(*)Para visualizar todos los Cursos Paralelos haga una busqueda en blanco</span>
-                            </div>
-                        </div>
-                        <div class="table-responsive">
-                            <table class="table table-bordered table-striped table-sm">
-                                <thead>
-                                    <tr>
-                                        <th>Opciones</th>
-                                        <th>Nivel</th>
-                                        <th>Curso</th>                                        
+                                        <th>Profesor</th>
+                                        <th>Materia</th>                                        
+                                        <th>Curso</th>                               
                                         <th>Paralelo</th>
+                                        <th>Nivel</th>                                        
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr v-for="(cursoParalelo, index) in arrayCursoParalelo" :key="index">
+                                    <tr v-for="(oferta, index) in arrayOfertas" :key="index">
                                         <td>
-                                            <button type="button" @click="seleccionarCursoParalelo(cursoParalelo)" class="btn btn-success btn-sm">
+                                            <button type="button" @click="seleccionarOferta(oferta)" class="btn btn-success btn-sm">
                                                 <i class="fa fa-check"></i>
                                             </button> 
                                         </td>
-                                        <td v-text="cursoParalelo.Nivel"></td>
-                                        <td v-text="cursoParalelo.Curso"></td>                                        
-                                        <td v-text="cursoParalelo.Paralelo"></td>                                        
+                                        <td v-text="oferta.Profesor"></td>
+                                        <td v-text="oferta.Materia"></td>                                        
+                                        <td v-text="oferta.Curso"></td>
+                                        <td v-text="oferta.Paralelo"></td>
+                                        <td v-text="oferta.Nivel"></td>                                    
                                     </tr>                                
                                 </tbody>
                             </table>
-                            <nav>
-                                <ul class="pagination">
-                                    <li class="page-item" v-if="pagination.current_page > 1">
-                                        <a class="page-link" href="#" @click.prevent="cambiarPagina(pagination.current_page - 1, buscarCursoParalelo, criterioCursoParalelo)">Ant</a>
-                                    </li>
-
-                                    <li class="page-item" v-for="page in pagesNumber" :key="page" :class="[page == isActived ? 'active' : '']">
-                                        <a class="page-link" href="#" @click.prevent="cambiarPagina(page, buscarCursoParalelo, criterioCursoParalelo)" v-text="page"></a>
-                                    </li>       
-
-                                    <li class="page-item" v-if="pagination.current_page < pagination.last_page">
-                                        <a class="page-link" href="#" @click.prevent="cambiarPagina(pagination.current_page + 1, buscarCursoParalelo, criterioCursoParalelo)">Sig</a>
-                                    </li>
-                                </ul>
-                            </nav>
                         </div>
+                        <nav>
+                            <ul class="pagination">
+                                <li class="page-item" v-if="pagination.current_page > 1">
+                                    <a class="page-link" href="#" @click.prevent="cambiarPagina(pagination.current_page - 1, buscarOferta, criterioOferta, 'oferta')">Ant</a>
+                                </li>
+
+                                <li class="page-item" v-for="page in pagesNumber" :key="page" :class="[page == isActived ? 'active' : '']">
+                                    <a class="page-link" href="#" @click.prevent="cambiarPagina(page, buscarOferta, criterioOferta, 'oferta')" v-text="page"></a>
+                                </li>       
+
+                                <li class="page-item" v-if="pagination.current_page < pagination.last_page">
+                                    <a class="page-link" href="#" @click.prevent="cambiarPagina(pagination.current_page + 1, buscarOferta, criterioOferta, 'oferta')">Sig</a>
+                                </li>
+                            </ul>
+                        </nav>
                     </div>
 
                     <div class="modal-footer">
@@ -237,6 +127,7 @@
             <!-- /.modal-dialog -->
         </div>
         <!--Fin del modal-->
+
 
     </main>
 </template>
@@ -254,41 +145,23 @@
 
     export default {                  
         data() {
-            return {               
-                idInscripcion: 0,
-                
-                idAlumno: 0,
-                nombreAlumno: '',                
-                ciAlumno: 0,
-                sexoAlumno: '',                
-                
-                arrayInscripcion: [],               
-                arrayAlumnos: [],
-                arrayCursoParalelo: [],                                            
+            return {                                           
+                idOferta: 0,
+                materiaOferta: '',                                
+                profesorOferta: '',
+                cursoOferta: '',
+                paraleloOferta: '',
+                nivelOferta: '',                                           
+                arrayOfertas: [],
+                //Para la busqueda en el modal Oferta
+                criterioOferta: 'Materia.Nombre',
+                buscarOferta: '',
+                modalOferta: 0,
 
-                //Id CursoParalelo
-                idCursoParalelo: 0,         
-                
-                //Para la busqueda en el modal Profesor
-                criterioAlumno: 'Nombre',
-                buscarAlumno: '',
+                //switches                                
+                swBotonGenerarBoletin: 0,
 
-                //Para la busqueda en el modal Curso Paralelo
-                criterioCursoParalelo: 'Nivel.Nombre',
-                buscarCursoParalelo: '',
-        
-                modalAlumno: 0,
-                modalCursoParalelo: 0,
                 tituloModal: '',
-
-                //switches
-                swModalCursoParalelo: 0,
-                swMostrarInscripcion: 0, 
-
-                //variable para controlar que se agregue almenos una oferta
-
-
-                mensajeNoTieneInscripcion: "El estudiante no tiene inscripcion para esta gestion",
                 
 
                 pagination: {
@@ -367,60 +240,25 @@
                 }
             },
 
-            cambiarPagina(page, buscar, criterio) {
+            cambiarPagina(page, buscar, criterio, tipo) {
                 let me = this;
-
-                //Actualizar la pagina actual
-                me.pagination.current_page = page;
-
-                //Envia la peticion para visualizar la data de esa pagina
-                me.listarAlumnos(page, buscar, criterio);
-            },
-
-
-            listarInscripcion() {
-                let loader = this.$loading.show(this.optionsLoadingOverlay);             
-                var me = this;
-                var url = 'inscripcion?' + 'idAlumno=' + this.idAlumno;
+                switch (tipo) {                                       
+                    case 'oferta':
+                        //Actualizar la pagina actual
+                        me.pagination.current_page = page;
+                        //Envia la peticion para visualizar la data de esa pagina
+                        me.listarOfertas(page, buscar, criterio);
+                        break;
                 
-                axios.get(url)
-                    .then(function (response) {
-                        // handle success
-                        console.log(response);
+                    default:
+                        break;
+                }                                
+            },        
 
-                        var respuesta = response.data;
-
-                        if (Array.isArray(respuesta)) { //Tiene inscripcion
-                            me.arrayInscripcion = respuesta;
-                            //Hacer visible la tabla de Inscripcion
-                            me.swMostrarInscripcion = 1;
-                            //Ocultar el boton de Agregar Inscripcion
-                            me.swModalCursoParalelo = 0;
-                        } else { // No tiene incripcion
-                            //Hacer visible el boton de Agregar Inscripcion
-                            me.swModalCursoParalelo = 1;
-                            //Ocultar la tabla de Inscripcion
-                            me.swMostrarInscripcion = 0;                   
-                        }                                         
-
-                        loader.hide();                        
-
-                    })
-                    .catch(function (error) {
-                        // handle error
-                        console.log(error);
-
-                        loader.hide();
-                    })
-                    .then(function () {
-                        // always executed
-                    });
-            },
-
-            listarAlumnos(page, buscar, criterio) {
+            listarOfertas(page, buscar, criterio) {
                 let loader = this.$loading.show(this.optionsLoadingOverlay);
-                let me = this;
-                var url = 'alumno?page=' + page + '&buscar=' + buscar + '&criterio=' + criterio;                
+                let me = this;                
+                var url = 'oferta3?page=' + page + '&buscar=' + buscar + '&criterio=' + criterio;
                 
                 axios.get(url)
                     .then(function (response) {
@@ -428,7 +266,7 @@
                         console.log(response);
 
                         var respuesta = response.data;
-                        me.arrayAlumnos = respuesta.alumnos.data;                        
+                        me.arrayOfertas = respuesta.ofertas.data;
                         me.pagination = respuesta.pagination;
                         
                         loader.hide();
@@ -436,114 +274,63 @@
                     .catch(function (error) {
                         // handle error
                         console.log(error);
-                        
+
                         loader.hide();
                     })
                     .then(function () {
                         // always executed
                     });
-            }, 
-    
-            listarCursoParalelo(page, buscar, criterio) {
-                let loader = this.$loading.show(this.optionsLoadingOverlay);
-                let me = this;
-                var url = 'cursoParalelo?page=' + page + '&buscar=' + buscar + '&criterio=' + criterio;                
-                
-                axios.get(url)
-                    .then(function (response) {
-                        // handle success
-                        console.log(response);
+            },      
 
-                        var respuesta = response.data;
-                        me.arrayCursoParalelo = respuesta.cursosParalelos.data;                        
-                        me.pagination = respuesta.pagination;
-                        
-                        loader.hide();
-                    })
-                    .catch(function (error) {
-                        // handle error
-                        console.log(error);
-                        
-                        loader.hide();
-                    })
-                    .then(function () {
-                        // always executed
-                    });
+            seleccionarOferta(oferta) {                            
+                this.idOferta = oferta.Id;
+                this.materiaOferta = oferta.Materia;
+                this.profesorOferta = oferta.Profesor;
+                this.cursoOferta = oferta.Curso;
+                this.paraleloOferta = oferta.Paralelo;
+                this.nivelOferta = oferta.Nivel;
+                //Hacer visible el boton de Generar Boletin
+                this.swBotonGenerarBoletin = 1;
+                this.cerrarModal();                    
             },
 
-            seleccionarAlumno(alumno) {            
-                this.idAlumno = alumno.Id;
-                this.nombreAlumno = alumno.Nombre;
-                this.ciAlumno = alumno.CI;
-                this.sexoAlumno = alumno.Sexo;                
-                
-                this.listarInscripcion();
-                this.cerrarModal();
-            },
-
-            seleccionarCursoParalelo(cursoParalelo) {
-                //console.log(cursoParalelo);
-                this.idCursoParalelo = cursoParalelo.Id;                             
-                
-                this.registrarInscripcion();
-                this.cerrarModal();
-            },
-        
             abrirModal(accion) {
-                switch (accion) {
-                    case 'alumnos':
-                        this.arrayAlumnos = [];                             
-                        this.modalAlumno = 1;
-                        this.tituloModal = "Seleccione un Alumno";
+                //resetear la paginacion
+                this.pagination = {
+                    'total': 0,
+                    'current_page': 0,
+                    'per_page': 0,
+                    'last_page': 0,
+                    'from': 0,
+                    'to': 0,
+                };
 
-                        //Llenar array Profesor
-                        this.listarAlumnos(1, '', 'Nombre');
+                switch (accion) {                                                            
+                    case 'oferta':
+                        this.arrayOfertas = [];                             
+                        this.modalOferta = 1;
+                        this.tituloModal = "Seleccione una Oferta";
+                        //Llenar array Alumno
+                        this.listarOfertas(1, this.buscarOferta, this.criterioOferta); 
                         break;
-                                        
-                    case 'agregarInscripcion':
-                        this.arrayCursoParalelo = [];                             
-                        this.modalCursoParalelo = 1;
-                        this.tituloModal = "Seleccione un Curso Paralelo";
-
-                        //Llenar array Profesor
-                        this.listarCursoParalelo(1, '', 'Nombre');
-                        break;
-                                        
+                
                     default:
                         break;
                 }
                 
             },
 
-            cerrarModal() {
-                this.modalAlumno = 0;
-                this.modalCursoParalelo = 0;
+            cerrarModal() {                                
+                this.modalOferta = 0;
                 this.tituloModal = '';                
             },
-            
-            registrarInscripcion() {                                                
-                let loader = this.$loading.show(this.optionsLoadingOverlay);
-                let me = this;                                       
 
-                axios.post(
-                    'inscripcion/registrar',
-                    {                        
-                        'idAlumno': this.idAlumno,
-                        'idCursoParalelo': this.idCursoParalelo              
-                    }                    
-                ).then(function (response) {
-                    loader.hide();
-                                                                                            
-                    me.listarInscripcion();;
 
-                    console.log(response);
 
-                }).catch(function (error) {
-                    console.log(error);
-
-                    loader.hide();
-                });
+            generarBoletinNotas() {
+                window.open('boletinNotas', '_blank');
             },
+           
                                                     
         },
        

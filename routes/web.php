@@ -51,12 +51,37 @@ Route::get('profesor/getProfesores', 'ProfesorController@getProfesores');
 Route::get('materia/getMaterias', 'MateriaController@getMaterias');
 
 Route::get('oferta', 'OfertaController@index');
+Route::get('oferta2', 'OfertaController@index2');
+Route::get('oferta3', 'OfertaController@index3');
 Route::post('oferta/registrar', 'OfertaController@store');
 
 Route::get('inscripcion', 'InscripcionController@index');
 Route::post('inscripcion/registrar', 'InscripcionController@store');
 
 Route::get('cursoParalelo', 'CursoParaleloController@index');
+
+Route::get('periodo', 'PeriodoController@index');
+
+Route::get('monitorearAsistencia/getTablaAsistencia', 'MonitorearAsistenciaController@getTablaAsistencia');
+
+
+
+use Maatwebsite\Excel\Facades\Excel;
+//use View;
+use App\Exports\BoletinNotasExport;
+Route::get('boletinNotas', function() {
+    //return Excel::download(new BoletinNotasExport(), 'boletinNotas.xlsx');
+
+    //PDF file is stored under project/public/download/info.pdf
+    $file = public_path(). "/boletinNotas.xlsx";
+
+    $headers = [
+        'Content-Type' => 'application/xlsx',
+     ];
+
+    return response()->download($file, 'boletinNotas.xlsx', $headers);    
+});
+
 
 
 //Auth::routes();

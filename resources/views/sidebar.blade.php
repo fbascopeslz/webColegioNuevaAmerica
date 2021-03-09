@@ -34,6 +34,12 @@
                 <p>Boletin Notas</p>
             </a>
         </li>
+        <li @click="menu=6" class="nav-item">
+            <a href="#" class="nav-link">
+                <i class="nav-icon fas fa-poll-h"></i>
+                <p>Monitorear Asistencia</p>
+            </a>
+        </li>
 
 
     </ul>

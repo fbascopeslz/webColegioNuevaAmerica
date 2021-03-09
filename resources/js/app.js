@@ -24,7 +24,9 @@ Vue.component('alumno', require('./components/Alumno.vue').default);
 Vue.component('nivel', require('./components/Nivel.vue').default);
 Vue.component('oferta', require('./components/Oferta.vue').default);
 Vue.component('inscripcion', require('./components/Inscripcion.vue').default);
-//Vue.component('inscripcion', require('./components/Inscripcion.vue').default);
+Vue.component('monitorear-asistencia', require('./components/MonitorearAsistencia.vue').default);
+Vue.component('boletin-notas', require('./components/BoletinNotas.vue').default);
+
 
 
 //Vue loading overlay

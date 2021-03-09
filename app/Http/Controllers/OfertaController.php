@@ -61,7 +61,113 @@ class OfertaController extends Controller
             ],
             'ofertas' => $ofertas
         ];
-    }    
+    }
+
+    //listar todas las Ofertas segun un Alumno
+    public function index2(Request $request)
+    {
+        //Si la peticion no es de Ajax redirige a la ruta '/'
+        if (!$request->ajax()) {
+            //return redirect('/');
+        }
+
+        $buscar = $request->buscar;
+        $criterio = $request->criterio;
+        $idAlumno = $request->idAlumno;  
+
+        if ($buscar == '') {
+            $ofertas = Oferta::join('Profesor', 'Oferta.ProfesorId', '=', 'Profesor.Id')
+                ->join('Materia', 'Oferta.MateriaId', '=', 'Materia.Id')
+                ->join('CursoParalelo', 'Oferta.CursoParaleloId', '=', 'CursoParalelo.Id')
+                ->join('Paralelo', 'CursoParalelo.ParaleloId', '=', 'Paralelo.Id')
+                ->join('Curso', 'CursoParalelo.CursoId', '=', 'Curso.Id')
+                ->join('Nivel', 'Curso.NivelId', '=', 'Nivel.Id')
+                ->join('Inscripcion', 'CursoParalelo.Id', '=', 'Inscripcion.CursoParaleloId')
+                ->join('Alumno', 'Inscripcion.AlumnoId', '=', 'Alumno.Id')
+                ->select('Oferta.Id', 'Profesor.Nombre as Profesor', 'Nivel.Nombre as Nivel', 'Materia.Nombre as Materia', 
+                    'Curso.Nombre as Curso', 'Paralelo.Nombre as Paralelo', 'Oferta.Gestion')
+                ->where('Alumno.Id', '=', $idAlumno)
+                ->orderBy('Oferta.Id', 'asc')
+                ->paginate(5);
+        } else {                        
+                $ofertas = Oferta::join('Profesor', 'Oferta.ProfesorId', '=', 'Profesor.Id')
+                ->join('Materia', 'Oferta.MateriaId', '=', 'Materia.Id')
+                ->join('CursoParalelo', 'Oferta.CursoParaleloId', '=', 'CursoParalelo.Id')
+                ->join('Paralelo', 'CursoParalelo.ParaleloId', '=', 'Paralelo.Id')
+                ->join('Curso', 'CursoParalelo.CursoId', '=', 'Curso.Id')
+                ->join('Nivel', 'Curso.NivelId', '=', 'Nivel.Id')
+                ->join('Inscripcion', 'CursoParalelo.Id', '=', 'Inscripcion.CursoParaleloId')
+                ->join('Alumno', 'Inscripcion.AlumnoId', '=', 'Alumno.Id')
+                ->select('Oferta.Id', 'Profesor.Nombre as Profesor', 'Nivel.Nombre as Nivel', 'Materia.Nombre as Materia', 
+                    'Curso.Nombre as Curso', 'Paralelo.Nombre as Paralelo', 'Oferta.Gestion')
+                ->where('Alumno.Id', '=', $idAlumno)
+                ->where($criterio, 'like', '%'.$buscar.'%')
+                ->orderBy('Oferta.Id', 'asc')
+                ->paginate(5);       
+        }                
+
+        return [
+            'pagination' => [
+                'total' => $ofertas->total(),
+                'current_page' => $ofertas->currentPage(),
+                'per_page' => $ofertas->perPage(),
+                'last_page' => $ofertas->lastPage(),
+                'from' => $ofertas->firstItem(),
+                'to' => $ofertas->lastItem(),
+            ],
+            'ofertas' => $ofertas
+        ];
+    }
+
+    //listar todas las Ofertas
+    public function index3(Request $request)
+    {
+        //Si la peticion no es de Ajax redirige a la ruta '/'
+        if (!$request->ajax()) {
+            //return redirect('/');
+        }
+
+        $buscar = $request->buscar;
+        $criterio = $request->criterio;        
+
+        if ($buscar == '') {
+            $ofertas = Oferta::join('Profesor', 'Oferta.ProfesorId', '=', 'Profesor.Id')
+                ->join('Materia', 'Oferta.MateriaId', '=', 'Materia.Id')
+                ->join('CursoParalelo', 'Oferta.CursoParaleloId', '=', 'CursoParalelo.Id')
+                ->join('Paralelo', 'CursoParalelo.ParaleloId', '=', 'Paralelo.Id')
+                ->join('Curso', 'CursoParalelo.CursoId', '=', 'Curso.Id')
+                ->join('Nivel', 'Curso.NivelId', '=', 'Nivel.Id')
+                ->select('Oferta.Id', 'Profesor.Nombre as Profesor', 'Nivel.Nombre as Nivel', 'Materia.Nombre as Materia', 
+                    'Curso.Nombre as Curso', 'Paralelo.Nombre as Paralelo', 'Oferta.Gestion')                
+                ->orderBy('Oferta.Id', 'desc')
+                ->paginate(10);
+        } else {            
+            $ofertas = Oferta::join('Profesor', 'Oferta.ProfesorId', '=', 'Profesor.Id')
+                ->join('Materia', 'Oferta.MateriaId', '=', 'Materia.Id')
+                ->join('CursoParalelo', 'Oferta.CursoParaleloId', '=', 'CursoParalelo.Id')
+                ->join('Paralelo', 'CursoParalelo.ParaleloId', '=', 'Paralelo.Id')
+                ->join('Curso', 'CursoParalelo.CursoId', '=', 'Curso.Id')
+                ->join('Nivel', 'Curso.NivelId', '=', 'Nivel.Id')
+                ->select('Oferta.Id', 'Profesor.Nombre as Profesor', 'Nivel.Nombre as Nivel', 'Materia.Nombre as Materia', 
+                    'Curso.Nombre as Curso', 'Paralelo.Nombre as Paralelo', 'Oferta.Gestion')
+                ->where($criterio, 'like', '%'.$buscar.'%') //Pendiente la busqueda            
+                ->orderBy('Oferta.Id', 'desc')
+                ->paginate(10);             
+        }
+
+        return [
+            'pagination' => [
+                'total' => $ofertas->total(),
+                'current_page' => $ofertas->currentPage(),
+                'per_page' => $ofertas->perPage(),
+                'last_page' => $ofertas->lastPage(),
+                'from' => $ofertas->firstItem(),
+                'to' => $ofertas->lastItem(),
+            ],
+            'ofertas' => $ofertas
+        ];
+    }
+
 
     public function store(Request $request)
     {

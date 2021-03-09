@@ -132,7 +132,10 @@
                 <inscripcion></inscripcion>
             </template>
             <template v-if="menu==5">
-                <boletinNotas></boletinNotas>
+                <boletin-notas></boletin-notas>
+            </template>
+            <template v-if="menu==6">
+                <monitorear-asistencia></monitorear-asistencia>
             </template>
                         
             <!-- /Fin del contenido principal -->
